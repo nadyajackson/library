@@ -1,5 +1,6 @@
 const express = require('express');
 const mysql = require('mysql2');
+const path = require('path')
 
 const db = mysql.createConnection({
     host: 'localhost',
@@ -108,9 +109,18 @@ app.get('/deleteRow/:sku', (req, res) => {
     })
 })
 
+if (process.env.NODE_ENV === 'production') {
+    // Express will serve up production assets
+    app.use(express.static('build'));
+  
+    // Express serve up index.html file if it doesn't recognize route
+    app.get('*', (req, res) => {
+      res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
+    });
+  }
+  const PORT = process.env.PORT || 9000;
 
 
-
-app.listen('9000', () =>{
-    console.log('local server is up')
-})
+app.listen(PORT, () => { 
+    console.log(`The App is listening on port ${PORT}`)
+});
