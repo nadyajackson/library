@@ -3,11 +3,13 @@ const mysql = require('mysql2');
 const path = require('path')
 
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'Kibeth13!',
-    database: 'WEEK6'
+    host: 'mysql://be9fc529dcb01c:1d29fb21@us-cdbr-east-05.cleardb.net/heroku_4fb321718508f4c?reconnect=true',
+    user: 'be9fc529dcb01c',
+    password: '1d29fb21',
+    database: 'heroku_4fb321718508f4c'
 });
+
+
 
 db.connect((err) =>{
     if(err) throw err;
