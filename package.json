@@ -9,7 +9,7 @@
     "mongoose": "^6.1.2",
     "morgan": "^1.10.0",
     "mysql2": "^2.3.3",
-    "node": "^17.4.0"
+    "node": "^14.17.6"
   },
   "devDependencies": {},
   "scripts": {
