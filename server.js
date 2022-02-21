@@ -9,7 +9,12 @@ const db = mysql.createConnection({
     database: 'heroku_4fb321718508f4c'
 });
 
-
+// const db = mysql.createConnection({
+//     host: 'localhost',
+//     user: 'root',
+//     password: 'password',
+//     database: 'WEEK6'
+// });
 
 db.connect((err) =>{
     if(err) throw err;

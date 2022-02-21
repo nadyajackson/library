@@ -7,8 +7,9 @@ export default function Insert(){
     const [Inventory, setInventory] = useState([]);
 
     const addInventory = (newStuff) => {
-        axios.post('/insertSecond', newStuff)
+        axios.post('/insertFirst', newStuff)
             .then(res =>{
+                console.log(newStuff)
                 setInventory(previous => [previous, res.data])
             })
             .catch(err => console.log(err))
