@@ -14,28 +14,30 @@ export default function Home(){
     }, []);
 
     const editProduct = (updates, productSku) => {
-        axios.put(`/updateRow/${productSku}`, updates)
-
+        axios.get(`http://localhost:9000/updateRow/${productSku}`, updates)
             .then(res =>{ 
+                console.log(updates)
                 setInventory(previous => previous.map(stuff => stuff.sku !== productSku ? stuff: res.data))
          })
             .catch(err => console.log(err))
     }
 
     const deleteProduct = (productSku) => {
-    axios.delete(`/deleteRow/${productSku}`)
+    axios.get(`/deleteRow/${productSku}`)
         .then(res =>{
             setInventory(previous => previous.filter(stuff => stuff.sku !== productSku))
         })
         .catch(err =>console.log(err))
 }
     
-    const collection  = Inventory.map(stuff =>
-        <InventoryDisplay
+    const collection  = Inventory.map(stuff =>{
+        console.log(editProduct)
+        return <InventoryDisplay
             {...stuff}
-            submit = {editProduct}
+            editProduct = {editProduct}
             deleteProduct = {deleteProduct}
-            key = {stuff.sku} />)
+            key = {stuff.sku} />
+        })
 
     return(
         <div>

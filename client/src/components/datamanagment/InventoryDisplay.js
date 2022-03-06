@@ -1,5 +1,5 @@
 import {useState} from "react";
-import AddForm from "./addForm";
+import EditForm from './editForm'
 
 export default function InventoryDisplay({product, sku, color, inventoryCount,deleteProduct, editProduct}){
     const [editToggle, setEditToggle] = useState(false)
@@ -27,13 +27,13 @@ return(
         </>
         :
         <>
-        <AddForm 
+        <EditForm 
             product={product}
             color={color}
             inventoryCount={inventoryCount}
             sku={sku}
             btnText = 'Submit Edit'
-            submit={editProduct}
+            editProduct={editProduct}
         />
         <button onClick={() => setEditToggle(prevToggle => !prevToggle)}>Close</button>
         </>

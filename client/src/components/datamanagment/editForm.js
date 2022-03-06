@@ -1,7 +1,7 @@
 import {useState} from "react";
 
 
-export default function AddForm({product, color,  inventoryCount, addInventory, btnText, }){
+export default function EditForm({product, color, sku, inventoryCount, editProduct, btnText, }){
     const initialInputs = {product: product || '', color: color || '', inventoryCount: inventoryCount || ''};
     const [inputs, setInputs] = useState(initialInputs);
 
@@ -13,7 +13,7 @@ export default function AddForm({product, color,  inventoryCount, addInventory, 
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(inputs)
-        addInventory(inputs);
+        editProduct(inputs, sku);
         setInputs(initialInputs);
     }
 

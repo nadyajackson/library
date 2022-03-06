@@ -1,27 +1,34 @@
 const express = require('express');
 const mysql = require('mysql2');
 const path = require('path')
-
-const db = mysql.createConnection({
-    host: 'mysql2://be9fc529dcb01c:1d29fb21@us-cdbr-east-05.cleardb.net/heroku_4fb321718508f4c?reconnect=true',
-    user: 'be9fc529dcb01c',
-    password: '1d29fb21',
-    database: 'heroku_4fb321718508f4c'
-});
+const morgan = require('morgan')
+const cors = require('cors');
 
 // const db = mysql.createConnection({
-//     host: 'localhost',
-//     user: 'root',
-//     password: 'password',
-//     database: 'WEEK6'
+//     host: 'mysql2://be9fc529dcb01c:1d29fb21@us-cdbr-east-05.cleardb.net/heroku_4fb321718508f4c?reconnect=true',
+//     user: 'be9fc529dcb01c',
+//     password: '1d29fb21',
+//     database: 'heroku_4fb321718508f4c'
 // });
 
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'password',
+    database: 'WEEK6'
+});
+
 db.connect((err) =>{
-    if(err) throw err;
+    if(err){throw err};
     console.log("Connection to MySQL successful")
 });
 
 const app = express();
+
+app.use(cors());
+app.use(morgan('dev'))
+app.use(express.json())
+
 //CREATE DATABASE
 app.get('/createDB', (req, res) => {
     let myQuery = "CREATE DATABASE WEEK6"
@@ -48,28 +55,29 @@ app.get('/createTable', (req, res) => {
 
 //INSERT
 app.get('/insertFirst', (req, res) => {
-    let post = `product: '${req.body.product}', color: '${req.body.color}', inventoryCount: '${req.body.inventoryCount}'`;
-    let myQuery = "INSERT INTO knickknackshop SET ?";
-    db.query(myQuery, post, (err, result) => {
+    let post = `product = '${req.body.product}', color = '${req.body.color}', inventoryCount = ${req.body.inventoryCount}`
+    let myQuery = `INSERT INTO knickknackshop SET ${post}`;
+    db.query(myQuery, (err, result) => {
         if (err){
+            console.log(myQuery)
             throw err;
         }
         console.log(result)
-        res.send('First row successful')
+        res.send('Data updated')
     })
 })
-app.get('/insertSecond', (req, res) => {
-    let post = req.body;
-    console.log(req.body, "second")
-    let myQuery = "INSERT INTO knickknackshop SET ?";
-    db.query(myQuery, post, (err, result) => {
-        if (err){
-            throw err;
-        }
-        console.log(result)
-        res.send(result)
-    })
-})
+// app.get('/insertSecond', (req, res) => {
+//     let post = req.body;
+//     console.log(req.body, "second")
+//     let myQuery = "INSERT INTO knickknackshop SET ?";
+//     db.query(myQuery, post, (err, result) => {
+//         if (err){
+//             throw err;
+//         }
+//         console.log(result)
+//         res.send(result)
+//     })
+// })
 
 //GET
 app.get('/displayRows', (req, res) => {
@@ -93,7 +101,7 @@ app.get('/getOne/:sku', (req, res) => {
 
 //UPDATE
 app.get('/updateRow/:sku', (req, res) => {
-    let newStuff = req.body
+    let newStuff = `product = '${req.body.product}', color = '${req.body.color}', inventoryCount = ${req.body.inventoryCount}`
     let myQuery = `UPDATE knickknackshop SET ${newStuff} WHERE sku = ${req.params.sku} `;
     db.query(myQuery, (err, result) => {
         if (err){

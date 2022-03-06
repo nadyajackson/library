@@ -7,17 +7,23 @@ export default function Insert(){
     const [Inventory, setInventory] = useState([]);
 
     const addInventory = (newStuff) => {
-        axios.post('/insertFirst', newStuff)
+        axios.get('http://localhost:9000/insertFirst', newStuff)
             .then(res =>{
                 console.log(newStuff)
-                setInventory(previous => [previous, res.data])
+                setInventory(previous => [...previous, newStuff])
+                // axios.get('http://localhost:9000/displayRows')
+                // .then(res => {
+                //     console.log(newStuff)
+                //     setInventory(res.data)
+                // })
+                //.catch(err => console.log(err))
             })
             .catch(err => console.log(err))
     };
   
 
     useEffect(() =>{
-        axios.get('/displayRows')
+        axios.get('http://localhost:9000/displayRows')
             .then(res => {
                 setInventory(res.data)
             })
@@ -37,7 +43,7 @@ export default function Insert(){
             <div className="display">
             <AddForm 
                 btnText='Catalog'
-                submit={addInventory}
+                addInventory={addInventory}
             />
            
             {collection}
