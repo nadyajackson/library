@@ -7,7 +7,7 @@ export default function Insert(){
     const [Inventory, setInventory] = useState([]);
 
     const addInventory = (newStuff) => {
-        axios.get('http://localhost:9000/insertFirst', newStuff)
+        axios.get('/insertFirst', newStuff)
             .then(res =>{
                 console.log(newStuff)
                 setInventory(previous => [...previous, newStuff])
@@ -23,7 +23,7 @@ export default function Insert(){
   
 
     useEffect(() =>{
-        axios.get('http://localhost:9000/displayRows')
+        axios.get('/displayRows')
             .then(res => {
                 setInventory(res.data)
             })

@@ -14,7 +14,7 @@ export default function Home(){
     }, []);
 
     const editProduct = (updates, productSku) => {
-        axios.get(`http://localhost:9000/updateRow/${productSku}`, updates)
+        axios.get(`updateRow/${productSku}`, updates)
             .then(res =>{ 
                 console.log(updates)
                 setInventory(previous => previous.map(stuff => stuff.sku !== productSku ? stuff: res.data))
